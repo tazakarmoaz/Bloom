@@ -18,7 +18,6 @@ jobs:
       - name: Fix package.json catalog issue
         run: |
           sed -i 's/"catalog:"/"latest"/g' package.json
-        # السطر اللي فوق ده هيدخل يغير أي كلمة catalog لـ latest عشان السيرفر يفهمها فوراً 🚀
 
       - name: Setup Expo
         uses: expo/expo-github-action@v8
@@ -32,4 +31,4 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Build Android Preview (APK)
-        run: eas build --platform android --profile preview --local false
+        run: eas build --platform android --profile preview
