@@ -13,7 +13,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20 # حدثناها لـ 20 عشان تتماشى مع المتطلبات الجديدة
 
       - name: Fix package.json catalog issue
         run: |
@@ -30,11 +30,16 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
+      - name: Fix Missing Icon Issue
+        run: |
+          # دي الحركة اللي هتخلي الموبايل يكمل من غير ما يدور على الأيقونة المفقودة
+          sed -i 's/"adaptiveIcon":.*//g' app.json
+          mkdir -p assets
+          touch assets/adaptive-icon.png
+
       - name: Prebuild Expo Application
         run: npx expo prebuild --platform android
-        # السطر ده بيولد ملفات الاندرويد الأصلية علطول من غير EAS 🚀
 
       - name: Build Android Preview (APK)
         run: |
           cd android && ./gradlew assembleDebug
-        # ده الأمر السحري اللي بيطبخ الـ APK محلي جوة جيت هاب ومحدش يقدر يوقفه 😎
