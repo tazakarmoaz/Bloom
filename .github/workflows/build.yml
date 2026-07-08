@@ -1,7 +1,7 @@
 name: Build APK
 on:
   push:
-    branches: [ main ] # أو اسم الفرع بتاعك
+    branches: [ main ]
 
 jobs:
   build:
@@ -13,7 +13,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-size: 18
+          node-version: 18
 
       - name: Setup Expo
         uses: expo/expo-github-action@v8
@@ -23,7 +23,7 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps # التعديل السحري هنا عشان يتخطى أي تعارض 🚀
 
       - name: Build Android Preview (APK)
         run: eas build --platform android --profile preview --local false
