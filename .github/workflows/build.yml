@@ -30,10 +30,11 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Configure EAS Project
-        run: |
-          npx eas-cli project:init --non-interactive || true
-        # السطر ده بيحل مشكلة الـ Configured اللي ظهرت في الصورة فوراً 🚀
+      - name: Prebuild Expo Application
+        run: npx expo prebuild --platform android
+        # السطر ده بيولد ملفات الاندرويد الأصلية علطول من غير EAS 🚀
 
       - name: Build Android Preview (APK)
-        run: eas build --platform android --profile preview --local
+        run: |
+          cd android && ./gradlew assembleDebug
+        # ده الأمر السحري اللي بيطبخ الـ APK محلي جوة جيت هاب ومحدش يقدر يوقفه 😎
