@@ -13,12 +13,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20 # حدثنا نسخة نود كمان عشان pnpm
+          node-version: 18
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8 # بنسطب الأداة السحرية pnpm 🚀
+      - name: Fix package.json catalog issue
+        run: |
+          sed -i 's/"catalog:"/"latest"/g' package.json
+        # السطر اللي فوق ده هيدخل يغير أي كلمة catalog لـ latest عشان السيرفر يفهمها فوراً 🚀
 
       - name: Setup Expo
         uses: expo/expo-github-action@v8
@@ -26,10 +26,10 @@ jobs:
           expo-version: latest
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
-          packager: pnpm # بنخليه يتعامل مع pnpm
+          packager: npm
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile # التثبيت السريع والذكي اللي هيحل المشكلة 😎
+        run: npm install --legacy-peer-deps
 
       - name: Build Android Preview (APK)
         run: eas build --platform android --profile preview --local false
