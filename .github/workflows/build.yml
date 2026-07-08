@@ -15,13 +15,18 @@ jobs:
         with:
           node-version: 20
 
+      - name: Clean package.json (إصلاح كلمة catalog الملعونة)
+        run: |
+          sed -i 's/catalog://g' package.json
+          # التأكد من إزالة أي علامات غريبة قد تكون موجودة
+          sed -i 's/"catalog"://g' package.json
+
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Fix Assets (عشان ننهي أزمة الصور)
+      - name: Fix Assets
         run: |
           mkdir -p assets
-          # بننشئ ملفات وهمية لو مش موجودة عشان الـ prebuild ميزعلش
           touch assets/icon.png
           touch assets/adaptive-icon.png
           touch assets/favicon.png
