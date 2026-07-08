@@ -13,7 +13,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20 # حدثنا نسخة نود كمان عشان pnpm
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8 # بنسطب الأداة السحرية pnpm 🚀
 
       - name: Setup Expo
         uses: expo/expo-github-action@v8
@@ -21,10 +26,10 @@ jobs:
           expo-version: latest
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
-          packager: npm # التعديل هنا: بنجبره يستخدم npm ويطنش yarn المزعج 🚀
+          packager: pnpm # بنخليه يتعامل مع pnpm
 
       - name: Install dependencies
-        run: npm install --legacy-peer-deps
+        run: pnpm install --no-frozen-lockfile # التثبيت السريع والذكي اللي هيحل المشكلة 😎
 
       - name: Build Android Preview (APK)
         run: eas build --platform android --profile preview --local false
