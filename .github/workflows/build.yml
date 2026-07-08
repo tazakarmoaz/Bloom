@@ -30,5 +30,10 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
+      - name: Configure EAS Project
+        run: |
+          npx eas-cli project:init --non-interactive || true
+        # السطر ده بيحل مشكلة الـ Configured اللي ظهرت في الصورة فوراً 🚀
+
       - name: Build Android Preview (APK)
-        run: eas build --platform android --profile preview
+        run: eas build --platform android --profile preview --local
