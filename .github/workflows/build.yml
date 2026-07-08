@@ -13,29 +13,18 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20 # حدثناها لـ 20 عشان تتماشى مع المتطلبات الجديدة
-
-      - name: Fix package.json catalog issue
-        run: |
-          sed -i 's/"catalog:"/"latest"/g' package.json
-
-      - name: Setup Expo
-        uses: expo/expo-github-action@v8
-        with:
-          expo-version: latest
-          eas-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
-          packager: npm
+          node-version: 20
 
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Fix Missing Icon Issue
+      - name: Fix Assets (عشان ننهي أزمة الصور)
         run: |
-          # دي الحركة اللي هتخلي الموبايل يكمل من غير ما يدور على الأيقونة المفقودة
-          sed -i 's/"adaptiveIcon":.*//g' app.json
           mkdir -p assets
+          # بننشئ ملفات وهمية لو مش موجودة عشان الـ prebuild ميزعلش
+          touch assets/icon.png
           touch assets/adaptive-icon.png
+          touch assets/favicon.png
 
       - name: Prebuild Expo Application
         run: npx expo prebuild --platform android
