@@ -15,10 +15,9 @@ jobs:
         with:
           node-version: 20
 
-      - name: Clean package.json (إصلاح كلمة catalog الملعونة)
+      - name: Clean package.json
         run: |
           sed -i 's/catalog://g' package.json
-          # التأكد من إزالة أي علامات غريبة قد تكون موجودة
           sed -i 's/"catalog"://g' package.json
 
       - name: Install dependencies
@@ -27,12 +26,12 @@ jobs:
       - name: Fix Assets
         run: |
           mkdir -p assets
-          touch assets/icon.png
-          touch assets/adaptive-icon.png
-          touch assets/favicon.png
+          wget -qO assets/icon.png https://raw.githubusercontent.com/expo/expo/main/templates/expo-template-blank/assets/icon.png
+          wget -qO assets/adaptive-icon.png https://raw.githubusercontent.com/expo/expo/main/templates/expo-template-blank/assets/adaptive-icon.png
+          wget -qO assets/favicon.png https://raw.githubusercontent.com/expo/expo/main/templates/expo-template-blank/assets/favicon.png
 
       - name: Prebuild Expo Application
-        run: npx expo prebuild --platform android
+        run: npx expo prebuild --platform android --no-install
 
       - name: Build Android Preview (APK)
         run: |
